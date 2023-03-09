@@ -18,35 +18,30 @@ public class VendasApplication {
         return args -> {
             Cliente cliente = new Cliente();
             cliente.setNome("Cliente_01");
-            clientes.salvar(cliente);
+            clientes.save(cliente);
 
             Cliente cliente2 = new Cliente("Cliente_02");
-            clientes.salvar(cliente2);
+            clientes.save(cliente2);
 
-            clientes.salvar(new Cliente("Cliente_03"));
+            clientes.save(new Cliente("Cliente_03"));
 
-            List<Cliente> obterTodosClientes = clientes.obterTodos();
-            obterTodosClientes.forEach(System.out::println);
+            List<Cliente> TodosClientes = clientes.findAll();
+            TodosClientes.forEach(System.out::println);
 
-            List<Cliente> atualizarClientes = clientes.obterTodos();
-            atualizarClientes.forEach(cli ->{
-                cli.setNome(cli.getNome() + "atualizado");
+            System.out.println("Atualizando Clientes:");
+            TodosClientes.forEach(cli ->{
+                cli.setNome(cli.getNome() + " atualizado");
+                clientes.save(cli);
             });
 
-            atualizarClientes.forEach(System.out::println);
+            TodosClientes = clientes.findAll();
+            TodosClientes.forEach(System.out::println);
 
-            clientes.obterCliente("Cliente_01").forEach(System.out::println);
+            clientes.findByNomeLike("Cliente_01").forEach(System.out::println);
 
-            obterTodosClientes.forEach(clie ->{
-                clientes.deletarCliente(clie);
-            });
-
-            obterTodosClientes = clientes.obterTodos();
-            if(obterTodosClientes.isEmpty()){
-                System.out.println("Tabela cliente está vazia");
-            }else{
-                obterTodosClientes.forEach(System.out::println);
-            }
+            String clienteTeste = "Cliente_01 atualizado";
+            boolean existeCliente = clientes.existsByNome(clienteTeste);
+            System.out.println("o cliente: "+clienteTeste+" existe na tabela? : " + existeCliente);
         };
     }
     public static void main(String[] args){
