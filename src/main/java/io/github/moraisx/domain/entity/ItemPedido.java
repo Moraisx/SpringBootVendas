@@ -1,9 +1,25 @@
 package io.github.moraisx.domain.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "ITENS_PEDIDO")
 public class ItemPedido {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "PEDIDO_ID")
     private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUTO_ID")
     private Produto produto;
+
+    @Column(name = "QUANTIDADE")
     private  Integer quantidade;
 
     public Integer getId() {
@@ -37,4 +53,5 @@ public class ItemPedido {
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
+
 }
